@@ -35,7 +35,7 @@ class PendulumEnv(gym.Env):
 
     | Num | Action | Min  | Max |
     |-----|--------|------|-----|
-    | 0   | Torque | -2.0 | 2.0 |
+    | 0   | Torque | -5.0 | 5.0 |
 
 
     ### Observation Space
@@ -62,7 +62,7 @@ class PendulumEnv(gym.Env):
 
     ### Starting State
 
-    The starting state is a random angle in *[-pi, pi]* and a random angular velocity in *[-1,1]*.
+    The starting state is a random angle in *[pi, pi]* and a random angular velocity in *[0,0]*.
 
     ### Episode Termination
 
@@ -91,7 +91,7 @@ class PendulumEnv(gym.Env):
 
     def __init__(self, render_mode: Optional[str] = None, g=10.0):
         self.max_speed = 8
-        self.max_torque = 2.0
+        self.max_torque = 5.0
         self.dt = 0.05
         self.g = g
         self.m = 1.0
@@ -142,8 +142,9 @@ class PendulumEnv(gym.Env):
         options: Optional[dict] = None
     ):
         super().reset(seed=seed)
-        high = np.array([np.pi, 1])
-        self.state = self.np_random.uniform(low=-high, high=high)
+        high = np.array([np.pi, 0])
+        low = np.array([np.pi, 0])
+        self.state = self.np_random.uniform(low=low, high=high)
         self.last_u = None
 
         self.renderer.reset()
